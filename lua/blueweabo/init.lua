@@ -34,6 +34,7 @@ autocmd({ "BufWritePre" }, {
     pattern = "*",
     command = [[%s/\s\+$//e]],
 })
+
 autocmd("LspAttach", {
     group = BlueWeaboGroup,
     callback = function(e)
@@ -45,7 +46,20 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
         vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-        vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+        vim.keymap.set("n", "<leader>vri", function() vim.lsp.buf.implementation() end, opts)
+        vim.keymap.set("i", "<C-h>", function() vim.lsp.handlers.signature_help({border = "single"}) end, opts)
+    end
+})
+
+autocmd({ "FileType" }, {
+    group = BlueWeaboGroup,
+    pattern = "java",
+    callback = function()
+        local config = {
+            cmd = { vim.fn.stdpath("data") .. "/mason/bin/jdtls" },
+            root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
+        }
+        require("jdtls").start_or_attach(config)
     end
 })
 

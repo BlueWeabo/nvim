@@ -9,6 +9,7 @@ return {
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
         "j-hui/fidget.nvim",
+        "mfussenegger/nvim-jdtls",
     },
 
     config = function()
@@ -50,6 +51,9 @@ return {
                         },
                         capabilities = capabilities,
                     })
+                end,
+
+                ["jdtls"] = function()
                 end,
             }
         })
