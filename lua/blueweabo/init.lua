@@ -47,7 +47,7 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set("n", "<leader>vri", function() vim.lsp.buf.implementation() end, opts)
-        vim.keymap.set("i", "<C-h>", function() vim.lsp.handlers.signature_help({border = "single"}) end, opts)
+        vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
     end
 })
 
@@ -57,6 +57,36 @@ autocmd({ "FileType" }, {
     callback = function()
         local config = {
             cmd = { vim.fn.stdpath("data") .. "/mason/bin/jdtls" },
+            settings = {
+                java = {
+                    signature_help = {enabled = true},
+                    implementationsCodeLens =  {enabled = true},
+                    referenceCodeLens = {enabled = true},
+                    sources = {
+                        organizeImports = {
+                            starThreshold = 9999,
+                            staticStarThreshold = 9999,
+                        }
+                    },
+                    configuration = {
+                        runtimes = {
+                            {
+                                name = "JavaSE-1.8",
+                                path = "/lib/jvm/jre-1.8.0-openjdk",
+                                default = true,
+                            },
+                            {
+                                name = "JavaSE-17",
+                                path = "/lib/jvm/jre-17-openjdk",
+                            },
+                            {
+                                name = "JavaSE-22",
+                                path = "/lib/jvm/jre-22-openjdk",
+                            },
+                        }
+                    }
+                },
+            },
             root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
         }
         require("jdtls").start_or_attach(config)
