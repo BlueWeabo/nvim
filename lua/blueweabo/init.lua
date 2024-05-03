@@ -73,11 +73,11 @@ autocmd({ "FileType" }, {
                             {
                                 name = "JavaSE-1.8",
                                 path = "/lib/jvm/jre-1.8.0-openjdk",
-                                default = true,
                             },
                             {
                                 name = "JavaSE-17",
                                 path = "/lib/jvm/jre-17-openjdk",
+                                default = true,
                             },
                             {
                                 name = "JavaSE-22",
