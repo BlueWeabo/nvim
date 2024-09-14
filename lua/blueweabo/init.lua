@@ -8,9 +8,27 @@ local BlueWeaboGroup = augroup("BlueWeabo", {})
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup("HighLightYank", {})
 
+ColorMyPencils("tokyonight")
+
 function R(name)
     require("plenary.reload").reload_module(name)
 end
+
+function Dap()
+    vim.keymap.set("n", "<leader>SI", function() require("dap").step_into() end)
+    vim.keymap.set("n", "<leader>SO", function() require("dap").step_over() end)
+    vim.keymap.set("n", "<leader>BR", function() require("dap").toggle_breakpoint() end)
+end
+
+require("dap").configurations.java = {
+    {
+        type = 'java';
+        request = 'attach';
+        name = "Debug (Attach) - Remote";
+        hostName = "127.0.0.1";
+        port = 5005;
+    },
+}
 
 vim.filetype.add({
     extensiob = {
@@ -88,6 +106,11 @@ autocmd({ "FileType" }, {
                 },
             },
             root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
+            init_options = {
+                bundles = {
+                    vim.fn.glob("/home/blueweabo/Projects/Personal/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", 1)
+                }
+            }
         }
         require("jdtls").start_or_attach(config)
     end

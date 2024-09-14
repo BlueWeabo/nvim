@@ -9,6 +9,7 @@ return {
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
         "j-hui/fidget.nvim",
+        "mfussenegger/nvim-dap",
         "mfussenegger/nvim-jdtls",
     },
 
